@@ -112,15 +112,28 @@ graph TB
     gate_node --> act_node
     roll_node --> act_node
 
-    subgraph act_node ["ACT — reach into the Sonic World"]
+    subgraph act_node ["ACT — generic semantic messages"]
         direction TB
-        world["The Sonic World\nmelodies · rhythms · harmonics\nloops · scenes · sound design\nthe composer's musical intent"]
-        actions["Actions affect the world\nscene changes · mutes · effects\nwhich clips play · what transforms"]
-        engines["Ableton · Tone.js · Max/MSP\nany DAW"]
-        world --> actions --> engines
+        msgs["/ralf/act/filter_cutoff 0.7\n/ralf/act/scene 3\n/ralf/intent/strip_energy"]
     end
 
-    engines -->|"sound fills the space\ndancer listens · responds\nthe loop turns"| BODIES
+    act_node --> translator
+
+    subgraph translator ["TRANSLATOR — swappable last mile"]
+        direction LR
+        tonejs["Tone.js\nbrowser\nzero setup"]
+        m4l["Max4Live\nAbleton\nfull DAW power"]
+        other["SuperCollider\nPd · anything\nvia OSC"]
+    end
+
+    translator --> sonic_world
+
+    subgraph sonic_world ["SONIC WORLD — the composer's creation"]
+        direction TB
+        material["Melodies · rhythms · harmonics\nloops · scenes · sound design\nthe musical intent"]
+    end
+
+    sonic_world -->|"sound fills the space\ndancer listens · responds\nthe loop turns"| BODIES
 
     %% ── SCENE configures the whole loop ──
 
@@ -157,7 +170,9 @@ graph TB
     class named intentNode
     class pool,dice rollNode
     class cond gateNode
-    class world,actions,engines actNode
+    class msgs actNode
+    class tonejs,m4l,other actNode
+    class material actNode
     class s1,s2,s3 sceneNode
 
     style BODIES fill:#0a0a18,stroke:#e94560,stroke-width:2px,color:#e94560
@@ -169,7 +184,9 @@ graph TB
     style intent_node fill:#140a20,stroke:#c084fc,stroke-width:1.5px,color:#c084fc
     style roll_node fill:#1a0a18,stroke:#f472b6,stroke-width:2px,color:#f472b6
     style gate_node fill:#101018,stroke:#666,stroke-width:1px,color:#888
-    style act_node fill:#0a1410,stroke:#2a9d8f,stroke-width:2px,color:#2a9d8f
+    style act_node fill:#0a1410,stroke:#2a9d8f,stroke-width:1.5px,color:#2a9d8f
+    style translator fill:#0a1410,stroke:#2a9d8f,stroke-width:2px,color:#2a9d8f
+    style sonic_world fill:#0a1814,stroke:#2a9d8f,stroke-width:2px,color:#2a9d8f
     style scene fill:#140a20,stroke:#a855f7,stroke-width:2px,color:#a855f7
 </pre>
 </div>
