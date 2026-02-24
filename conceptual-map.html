@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ralf — Conceptual Architecture</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a12; color: #e0e0e0; font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem; }
+  h1 { font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; color: #888; margin-bottom: 0.5rem; }
+  h2 { font-size: 0.85rem; color: #555; font-weight: 400; margin-bottom: 2rem; letter-spacing: 0.05em; }
+  #diagram { width: 100%; max-width: 1200px; }
+  .mermaid { width: 100%; }
+  .mermaid svg { width: 100% !important; max-width: 100%; }
+</style>
+</head>
+<body>
+<h1>Ralf</h1>
+<h2>Mutual transformative engagement through programmable audio responsiveness</h2>
+<p style="color:#666; font-size:0.8rem; margin-bottom:1.5rem; text-align:center; max-width:700px; line-height:1.6;">
+The <strong style="color:#e94560">Listening Loop</strong>: the system listens to the body through <em>qualities</em> and <em>gestures</em>. The dancer listens to the system through sound. Neither is in control. Both are responding. Every turn through the loop changes the next turn.
+</p>
+<p style="color:#555; font-size:0.75rem; margin-bottom:2rem; text-align:center; max-width:700px; line-height:1.6;">
+A composition has two dimensions. The <strong style="color:#2a9d8f">Sonic World</strong> — melodies, rhythms, harmonics, sound design — is the composer's musical intent. The <strong style="color:#f472b6">Tendencies</strong> — weights that shape how the world responds to movement — are the interaction design. Together they make a living composition.
+</p>
+<div id="diagram">
+<pre class="mermaid">
+graph TB
+    %% ════════════════════════════════════════
+    %% THE LISTENING LOOP
+    %% Body → Sense/Recognize → Reading → Intent → Roll → Act → Body
+    %% ════════════════════════════════════════
+
+    subgraph BODIES ["BODIES IN SPACE"]
+        direction LR
+        solo["Solo Dancer"]
+        duo["Two Dancers"]
+        crowd["Crowd ·\nDance Floor"]
+    end
+
+    subgraph INPUTS ["ANY INPUT"]
+        direction LR
+        cam["Camera"]
+        phone["Phone"]
+        watch["Wristband"]
+        lidar["LiDAR"]
+    end
+
+    BODIES --> INPUTS
+
+    %% ── THE 7 NODE TYPES ──
+
+    INPUTS --> sense & recognize
+
+    subgraph sense ["SENSE — continuous · every frame · how they move"]
+        direction TB
+        qualities["Qualities\nvelocity · jerkiness · contraction\nverticality · symmetry · coherence"]
+        relational["Between Dancers\nproximity · mirroring\nsynchrony · contrast"]
+    end
+
+    subgraph recognize ["RECOGNIZE — discrete · pattern match · what they did"]
+        direction TB
+        dtw["DTW + State Machine"]
+        vocab[".ralf Vocabularies"]
+        hit["Gesture Hit Events"]
+        vocab -.-> dtw --> hit
+    end
+
+    sense --> accumulate
+    sense --> combine
+    recognize --> accumulate
+    recognize --> intent_node
+
+    subgraph accumulate ["ACCUMULATE — track over time"]
+        direction LR
+        windowed["Windowed Rate\nhow often lately?"]
+        counting["Running Count\nhow many total?"]
+    end
+
+    accumulate --> gate_node
+    accumulate --> combine
+
+    subgraph combine ["COMBINE — weighted mix · the Reading"]
+        direction TB
+        recipe["Qualities × Weights + Gate\n= a named meaning"]
+        ex1["jerkiness + rhythm\n= hitting the beat"]
+        ex2["smoothness + openness\n= flow"]
+        ex3["mirroring + sync\n= unity"]
+        recipe --- ex1 & ex2 & ex3
+    end
+
+    combine --> intent_node
+
+    subgraph intent_node ["INTENT — what the system wants to do"]
+        direction TB
+        named["Named desires\nstrip energy · build tension\nadd texture · open space"]
+    end
+
+    intent_node --> roll_node
+
+    subgraph roll_node ["ROLL — weighted random · the Tendencies"]
+        direction TB
+        pool["Weighted Pool\nfilter sweep ×3\nhush master ×2\nmute perc ×1"]
+        dice["One action chosen\nsame input · different outcome\ntendencies shape the probability"]
+        pool --> dice
+    end
+
+    subgraph gate_node ["GATE — conditional pass/block"]
+        direction TB
+        cond["Threshold crossed?\nState matches?\nTime elapsed?"]
+    end
+
+    gate_node --> act_node
+    roll_node --> act_node
+
+    subgraph act_node ["ACT — reach into the Sonic World"]
+        direction TB
+        world["The Sonic World\nmelodies · rhythms · harmonics\nloops · scenes · sound design\nthe composer's musical intent"]
+        actions["Actions affect the world\nscene changes · mutes · effects\nwhich clips play · what transforms"]
+        engines["Ableton · Tone.js · Max/MSP\nany DAW"]
+        world --> actions --> engines
+    end
+
+    engines -->|"sound fills the space\ndancer listens · responds\nthe loop turns"| BODIES
+
+    %% ── SCENE configures the whole loop ──
+
+    subgraph scene ["SCENE — the full configuration"]
+        direction LR
+        s1["Solo + LiDAR\nHouse reading\nBespoke weights"]
+        s2["Duo + Cameras\nMirroring reading\nBlended track"]
+        s3["200 Phones\nCrowd synchrony\nBurning Man"]
+    end
+
+    scene -.->|"configures: who · how many\nwhich senses · which readings\nwhich weights · what world"| INPUTS
+
+    %% ── STYLES ──
+
+    classDef default fill:#14142a,stroke:#333,color:#ccc,stroke-width:1px
+    classDef bodyNode fill:#1a1a2e,stroke:#e94560,color:#fff,stroke-width:2px
+    classDef inputNode fill:#1a1a2e,stroke:#0f3460,color:#aac,stroke-width:1.5px
+    classDef senseNode fill:#0e1e2e,stroke:#00b4d8,color:#90ddf0,stroke-width:1.5px
+    classDef recognizeNode fill:#1e1030,stroke:#e94560,color:#f0b0c0,stroke-width:1.5px
+    classDef accumNode fill:#1a1a1a,stroke:#888,color:#bbb,stroke-width:1px
+    classDef combineNode fill:#1a1a0e,stroke:#e9c46a,color:#f0dca0,stroke-width:1.5px
+    classDef intentNode fill:#1a1020,stroke:#c084fc,color:#e0c0ff,stroke-width:1.5px
+    classDef rollNode fill:#1a0e1a,stroke:#f472b6,color:#fda4d0,stroke-width:2px
+    classDef gateNode fill:#1a1a1a,stroke:#888,color:#bbb,stroke-width:1px
+    classDef actNode fill:#0e1e1a,stroke:#2a9d8f,color:#80d8c8,stroke-width:1.5px
+    classDef sceneNode fill:#1e1030,stroke:#a855f7,color:#d8b4fe,stroke-width:1.5px
+
+    class solo,duo,crowd bodyNode
+    class cam,phone,watch,lidar inputNode
+    class qualities,relational senseNode
+    class dtw,vocab,hit recognizeNode
+    class windowed,counting accumNode
+    class recipe,ex1,ex2,ex3 combineNode
+    class named intentNode
+    class pool,dice rollNode
+    class cond gateNode
+    class world,actions,engines actNode
+    class s1,s2,s3 sceneNode
+
+    style BODIES fill:#0a0a18,stroke:#e94560,stroke-width:2px,color:#e94560
+    style INPUTS fill:#0a0a18,stroke:#0f3460,stroke-width:1.5px,color:#6688aa
+    style sense fill:#0a1420,stroke:#00b4d8,stroke-width:2px,color:#00b4d8
+    style recognize fill:#120a1a,stroke:#e94560,stroke-width:2px,color:#e94560
+    style accumulate fill:#101018,stroke:#666,stroke-width:1px,color:#888
+    style combine fill:#14140a,stroke:#e9c46a,stroke-width:2px,color:#e9c46a
+    style intent_node fill:#140a20,stroke:#c084fc,stroke-width:1.5px,color:#c084fc
+    style roll_node fill:#1a0a18,stroke:#f472b6,stroke-width:2px,color:#f472b6
+    style gate_node fill:#101018,stroke:#666,stroke-width:1px,color:#888
+    style act_node fill:#0a1410,stroke:#2a9d8f,stroke-width:2px,color:#2a9d8f
+    style scene fill:#140a20,stroke:#a855f7,stroke-width:2px,color:#a855f7
+</pre>
+</div>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      darkMode: true,
+      background: '#0a0a12',
+      primaryColor: '#14142a',
+      primaryTextColor: '#ccc',
+      lineColor: '#444',
+      fontSize: '14px'
+    },
+    flowchart: {
+      curve: 'basis',
+      padding: 20,
+      htmlLabels: true
+    }
+  });
+</script>
+</body>
+</html>
