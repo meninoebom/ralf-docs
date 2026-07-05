@@ -281,13 +281,23 @@ Target: Burning Man (summer 2026, ~6 months from Feb 2026)
 | Component | Where | Role in new system |
 |-----------|-------|-------------------|
 | Gesture recognition | `gesture-studio/` (Rust/Tauri) | Keep for training. Exports .ralf files the server loads. |
-| Quality analysis | `states-of-being/` (browser) | Port 8 primitives + AdaptiveRange into server. |
+| Quality analysis | `adapters/shared/quality-math.ts` | Canonical implementation (originally ported from States of Being). |
 | Mapping logic | `max4live/gesture-controller.js` | Port streams/stacks/intents/signals into server. |
 | Tone.js sound engine | `sound-engine/` | Becomes the browser translator. |
-| Blender (stem separation) | `sound-engine/` (Python) | Keep as-is. Portable sample pipeline. |
-| Pose tracking | `movenet/` and `mediapipe/` | Keep as-is. Already outputs OSC. |
-| iOS input | `gesture-input-ios/` | Keep as-is. Already outputs WebSocket. |
+| Blender (stem separation) | `blender/` (own repo: ralf-blender) | Portable sample pipeline. Feeds sound-engine, max4live, Song Space. |
+| Pose tracking | `mediapipe/` | Single pose path (capture app + quality relay). MoveNet archived July 2026. |
 | M4L device | `max4live/` | Simplify to thin translator receiving /ralf/act/* messages. |
+
+## The Constellation
+
+The core repos in this folder (runtime, adapters, mediapipe, gesture-studio, blender, sound-engine, max4live, scripts, docs) plus two satellites outside it:
+
+| Satellite | Where | Relationship |
+|-----------|-------|--------------|
+| **Song Space** | `~/dev/song-space` | Consumer web product AND concept lab: the whole pipeline compressed into one browser app. Invented the arc and the three interaction modes. Parked-but-hot on its own commercial track. See [research/song-space-learnings.md](research/song-space-learnings.md). |
+| **Relational Musicality book** | `~/dev/relational-musicality-book` | The theory track. Deliberately parallel; not edited from Ralf sessions. |
+
+Archived July 2026 (GitHub archive, readable, reversible): ralf-mocap-movenet (eclipsed by the MediaPipe path), gesture-input-ios (planning-only; SOMI-1 fills the wearable role), ralf-translators (folded into `runtime/translators/`), ralf-mediapipe-test (folded into `mediapipe/relay/`).
 
 ---
 

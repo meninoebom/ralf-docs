@@ -79,6 +79,8 @@ Mappings connect readings to the audio mix — this is the **taste layer**, wher
 
 Multiple readings can be active simultaneously — their contributions blend. The result is a continuously shifting mix driven by the body.
 
+> **Revision from practice (Song Space dance tests):** routing readings to *loudness*, as the examples above do, did not survive contact with a real body. Volume tied to noisy movement signals made the mix pulse randomly; the fix was to make volume the composer's domain entirely and give the dancer timbre, space, and events instead (filter, reverb, one-shots, bar-quantized mutes). The examples above should be read with that substitution in mind. Full findings, including the three interaction modes (impulse / gate / continuous): [research/song-space-learnings.md](research/song-space-learnings.md).
+
 ## Triggers: Dramatic Punctuation
 
 Triggers watch for specific moments — state changes, sustained conditions — and fire discrete actions:
