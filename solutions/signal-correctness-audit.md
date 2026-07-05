@@ -200,6 +200,21 @@ These were checked against first principles and the expert spec and found to com
 3. **`computeGroundedness` (finding 3).** The largest rewrite. The current heuristic is not just simplified, it omits the defining behavior. If a full rewrite is not wanted now, at minimum correct the docstring so it stops claiming peak-and-arrest detection.
 4. **`computeStillness` semantics (finding 5)** and the two low-severity items (**`synchrony` divisor, `aggregate_energy` rename**). The synchrony fix is a one-line change with existing tests; the rename touches consumers so coordinate it with scene configs and the console.
 
+## Remediation tracking
+
+Each confirmed finding has a GitHub issue, labeled `signal-audit` in its home repo so the audit's work is identifiable as a set. Autonomy verdict (`agent-ready` / `needs-eyes`) is from the `/workflow:issues` triage.
+
+| # | Finding | Repo | Issue | Verdict |
+|---|---|---|---|---|
+| 1 | SOMI `jerkiness` → windowed variance (+ `acceleration` doc comment) | ralf-adapters | [#25](https://github.com/meninoebom/ralf-adapters/issues/25) | agent-ready |
+| 2 | MoveNet stream confidence gating | ralf-mocap-movenet | [#1](https://github.com/meninoebom/ralf-mocap-movenet/issues/1) | agent-ready |
+| 3 | `computeGroundedness` peak-and-arrest | ralf-adapters | [#28](https://github.com/meninoebom/ralf-adapters/issues/28) | needs-eyes |
+| 4 | SOMI `velocity` accumulator | ralf-adapters | [#27](https://github.com/meninoebom/ralf-adapters/issues/27) | needs-eyes |
+| 5 | `computeStillness` absolute threshold | ralf-adapters | [#26](https://github.com/meninoebom/ralf-adapters/issues/26) | agent-ready |
+| 6 | `synchrony` divisor | ralf-runtime | [#1](https://github.com/meninoebom/ralf-runtime/issues/1) | agent-ready |
+| 7 | `aggregate_energy` rename | ralf-runtime | [#2](https://github.com/meninoebom/ralf-runtime/issues/2) | needs-eyes |
+| — | Doc comments (scalar-magnitude header, coordinate contract, video.js parity) | ralf-adapters | [#29](https://github.com/meninoebom/ralf-adapters/issues/29) | agent-ready |
+
 ## Scope and caveats
 
 - This audit covers whether each *formula* computes the right quantity. It does not tune the *values* of empirically-chosen constants; those are rehearsal-gated and belong to the SOMI-tuning milestone.
