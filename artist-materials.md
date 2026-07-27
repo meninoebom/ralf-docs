@@ -8,7 +8,7 @@ Reusable copy for applications, websites, press kits, and introductions. Last up
 
 I'm an engineer, musician, and dancer. I'm somewhat obsessed with a particular phenomenon: what happens when someone plays records through a sound system for a large group of people and it becomes a responsive, interactive, self-organizing artistic expression. I think that phenomenon is a piece with what happens in a capoeira roda, a bombazo, an assam. These are forms of collective, embodied, real-time musical coordination, and I believe they represent a kind of human intelligence we've mostly failed to recognize as such.
 
-My current project, Ralf, is infrastructure for creating real-time dialogue between movement and music. It's input agnostic (a webcam, a phone, a pressure mat, a LiDAR sensor) and output agnostic (Ableton, a browser synth, SuperCollider, anything). The dancer influences the music, the music shapes the dancer, and neither is in full control. I'm also writing a book, Technologies of Remembering, exploring why these embodied practices matter now more than ever.
+My current project, Ralf, is infrastructure for creating real-time dialogue between movement and music. It's input agnostic (a webcam, a phone, a pressure mat, a LiDAR sensor) and output agnostic (Ableton, a browser synth, SuperCollider, anything). The dancer influences the music, the music shapes the dancer, and neither is in full control. I'm also writing a book, *Relational Musicality: A Technology of Remembering*, exploring why these embodied practices matter now more than ever.
 
 ## Project Description (500 words)
 
